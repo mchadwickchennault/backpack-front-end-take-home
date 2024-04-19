@@ -20,7 +20,7 @@ export function BalanceInfo({currentBalanceInCents, availableBalanceInCents}: Ba
         }
     }, [availableBalanceInCents]);
   return (
-    <Stack direction="row" spacing={5}>
+    <Stack style={{marginTop: '20px'}} direction="row" spacing={5}>
       <label>Current Balance: ${currentBalance}</label>
       <label>Available Balance: ${availableBalance}</label>
     </Stack>

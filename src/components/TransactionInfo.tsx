@@ -1,53 +1,97 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Transaction, TransactionType } from '../hooks/useBankAccounts';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/system';
 
-export function TransactionInfo() : React.ReactElement {
+interface TransactionInfoProps {
+    transactions: Array<Transaction>;
+}
+
+interface TransactionRow {
+    id: string,
+    type: string,
+    date: string,
+    description: string,
+    amount_in_dollars: string,
+}
+
+export function TransactionInfo({transactions}: TransactionInfoProps) : React.ReactElement {
+    const [rows, setRows] = useState<Array<TransactionRow>>([]);
+
+    const theme = createTheme({
+        typography: {
+          fontFamily: [
+            'Montserrat',
+            'sans-serif'
+          ].join(','),
+        },
+    });
+
+    useEffect(() => {
+        if (transactions) {
+            const newRows = transactions.map((transaction) => {
+                let type = '';
+                switch (transaction.type) {
+                    case TransactionType.HOLD:
+                        type = 'Hold';
+                        break;
+                    case TransactionType.HOLD_RELEASE:
+                        type = 'Hold Release';
+                        break;
+                    case TransactionType.WITHDRAWAL:
+                        type = 'Withdrawal';
+                        break;
+                    case TransactionType.DEPOSIT:
+                        type = 'Deposit';
+                        break;
+                }
+                return {
+                    id: transaction.id,
+                    type: type,
+                    date: transaction.date.toDateString(),
+                    description: transaction.description,
+                    amount_in_dollars: (transaction.amount_in_cents / 100).toFixed(2),
+                }
+            });
+            setRows(newRows);
+        }
+    }, [transactions]);
+
     const columns: GridColDef[] = [
         {
         field: 'date',
         headerName: 'Date',
-        width: 150,
+        width: 175,
         editable: false,
         },
         {
         field: 'description',
         headerName: 'Description',
-        width: 150,
+        width: 175,
         editable: false,
         },
         {
             field: 'type',
             headerName: 'Type',
-            width: 150,
+            type: 'string',
+            width: 175,
             editable: false,
         },
         {
-        field: 'amount',
+        field: 'amount_in_dollars',
         headerName: 'Amount',
         type: 'number',
-        width: 150,
+        width: 175,
         editable: false,
         },
     ];
     
-    const rows = [
-        { id: 1, date: '2021-10-01', type: 'Withdrawl', description: 'Groceries', amount: 100 },
-        { id: 2, date: '2021-10-02',  type: 'Withdrawl', description: 'Gas', amount: 50 },
-        { id: 3, date: '2021-10-03',  type: 'Withdrawl', description: 'Dinner', amount: 75 },
-        { id: 4, date: '2021-10-04',  type: 'Withdrawl', description: 'Movies', amount: 40 },
-        { id: 5, date: '2021-10-05',  type: 'Withdrawl', description: 'Books', amount: 25 },
-        { id: 6, date: '2021-10-06',  type: 'Withdrawl', description: 'Coffee', amount: 5 },
-        { id: 7, date: '2021-10-07',  type: 'Withdrawl', description: 'Lunch', amount: 15 },
-        { id: 8, date: '2021-10-08',  type: 'Withdrawl', description: 'Clothes', amount: 200 },
-        { id: 9, date: '2021-10-09',  type: 'Withdrawl', description: 'Electronics', amount: 300 },
-        { id: 10, date: '2021-10-10',  type: 'Withdrawl', description: 'Shoes', amount: 150 },
-    ];
-    
     return (
-        <>
+        <ThemeProvider theme={theme}>
         <h3>Transaction Information</h3>
-        <Box sx={{ height: 400 }}>
+        <Box sx={{ height: 400, width: 700 }}>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -63,7 +107,7 @@ export function TransactionInfo() : React.ReactElement {
       />
       
     </Box>
-    </>
+    </ThemeProvider>
     );
 
 }

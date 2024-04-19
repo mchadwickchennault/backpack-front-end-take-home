@@ -4,6 +4,7 @@ import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import './SensitiveInfo.scss';
 
 interface SensitiveInfoProps {
     value: string | number;
@@ -21,10 +22,10 @@ export function SensitiveInfo({value}: SensitiveInfoProps) : React.ReactElement 
     }, [value]);
 
   return (
-    <Stack direction="row" spacing={5}>
-        <span>{showInfo ? value : obscuredValue}</span>
-        <IconButton onClick={() => setShowInfo(!showInfo)}>{showInfo ? <VisibilityOffIcon/> : <VisibilityIcon />}</IconButton>
-        <IconButton onClick={() => navigator.clipboard.writeText(value.toString())}><ContentCopyIcon/></IconButton>
+    <Stack direction="row" spacing={0}>
+        <span className='value'>{showInfo ? value : obscuredValue}</span>
+        <IconButton style={{marginTop: '-5px'}} className="icon" onClick={() => setShowInfo(!showInfo)}>{showInfo ? <VisibilityOffIcon/> : <VisibilityIcon />}</IconButton>
+        <IconButton style={{marginTop: '-5px'}} className="icon" onClick={() => navigator.clipboard.writeText(value.toString())}><ContentCopyIcon/></IconButton>
     </Stack>
     
   )
