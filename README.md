@@ -1,30 +1,17 @@
-# React + TypeScript + Vite
+# Here Goes Nothing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+I have reached the end of the time I have set asside for this project.
 
-Currently, two official plugins are available:
+To run the project:
+* `npm install`
+* `npm run dev`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+To run the tests:
+* `npm run test`
 
-## Expanding the ESLint configuration
+# Design Notes
+At the heart of my design is the `src/hooks/useBankAccounts.tsx` custom hook. This handles all interactions with the API. Doing this allows me to easily test all of my api interactions without being forced to go through the components interface. It makes for fast, easy testing. This also allows me to inject the custom hook into my component structure so that components are much easier to test as well. You will see examples of this in the tests. I was not able to test everything I wanted to but hopefully what and how I tested should give you some insight into where my head is at.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+For styling I used Sass with imported variables so that styling changes can be made within a few files without the need to touch all of the component's Sass files. In addition, I used the React Material UI design system for layout, buttons, and the transactions table. This gave me a lot of out of the box functionality such as responsiveness, ADA compliance, and a full featured table component that allowed my table to have sorting and filtering features without any effort on my part. There is some additional tweaking that needs to be done to set up the all of the responsiveness features, but the site looks okay on a mobile interface as is (using Chrome's mobile simulator).
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+For the visual design I went with clean and easy to read. I don't see it as a final design, but a great base to begin iteration.
